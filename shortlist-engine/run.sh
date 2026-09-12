@@ -9,13 +9,19 @@
 #   ./run.sh test         -> sets up, then runs the pytest suite
 #
 # Safe to re-run: venv creation and pip install are skipped if already done.
+#
+# The virtualenv is created OUTSIDE this repo (in ~/.cache) on purpose --
+# it can be several hundred MB (torch + sentence-transformers) and has no
+# business being inside a git working tree. Keeping it out of the repo
+# entirely means there's nothing for `git add -A` to ever pick up, no
+# matter what .gitignore says.
 
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 MODE="${1:-cli}"
-VENV_DIR="venv"
+VENV_DIR="${SHORTLIST_ENGINE_VENV:-$HOME/.cache/shortlist-engine-venv}"
 
 if [ ! -d "$VENV_DIR" ]; then
     echo "==> Creating virtual environment in $VENV_DIR ..."

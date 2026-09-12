@@ -61,14 +61,14 @@ def fuse_scores(
 
 
 def rank(candidates: List[Dict]) -> List[Dict]:
-    """candidates: list of dicts each already carrying 'final_score' and
-    other per-candidate fields (resume id, matched/missing skills, etc).
-    Returns the same dicts, sorted descending by final_score, with a
-    1-indexed 'rank' field added. Ties broken by resume_id ascending for
+    """candidates: list of dicts each already carrying 'score' and other
+    per-candidate fields (resume id, matched/missing skills, etc).
+    Returns the same dicts, sorted descending by score, with a 1-indexed
+    'rank' field added. Ties broken by resume_id ascending for
     determinism."""
     ordered = sorted(
         candidates,
-        key=lambda c: (-c["final_score"], c.get("resume_id", "")),
+        key=lambda c: (-c["score"], c.get("resume_id", "")),
     )
     for i, c in enumerate(ordered, start=1):
         c["rank"] = i

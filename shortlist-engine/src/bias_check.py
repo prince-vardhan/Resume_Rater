@@ -19,7 +19,7 @@ from typing import List
 from src.skill_vocab import EQUIVALENT_TOOL_GROUPS, SKILL_VOCAB
 
 _GENDERED_TERMS = [
-    "he ", "his ", "himself", "salesman", "manpower", "chairman",
+    "he", "his", "himself", "salesman", "manpower", "chairman",
     "guys", "rockstar", "ninja", "he/she", "young and energetic",
 ]
 
@@ -27,6 +27,17 @@ _EXCLUSIONARY_BUZZWORDS = [
     "work hard play hard", "digital native", "fast-paced environment",
     "wear many hats",
 ]
+
+
+def _word_boundary_hits(terms: List[str], text_low: str) -> List[str]:
+    """Case-insensitive, word-boundary-aware substring search -- plain `in`
+    checks would false-positive on e.g. 'he' inside 'the' or 'cache'."""
+    hits = []
+    for term in terms:
+        pattern = r"(?<![a-zA-Z0-9])" + re.escape(term) + r"(?![a-zA-Z0-9])"
+        if re.search(pattern, text_low):
+            hits.append(term)
+    return hits
 
 _YEARS_RE = re.compile(r"(\d+)\s*\+?\s*years?", re.IGNORECASE)
 _INTERN_RE = re.compile(r"intern(ship)?", re.IGNORECASE)
@@ -48,11 +59,11 @@ def _gendered_or_exclusionary_flags(jd_text: str) -> List[str]:
     text_low = jd_text.lower()
     flags = []
 
-    hits = sorted({term.strip() for term in _GENDERED_TERMS if term in text_low})
+    hits = sorted(set(_word_boundary_hits(_GENDERED_TERMS, text_low)))
     if hits:
         flags.append(f"Potentially gendered or exclusionary phrasing found: {', '.join(hits)}.")
 
-    buzz_hits = [term for term in _EXCLUSIONARY_BUZZWORDS if term in text_low]
+    buzz_hits = _word_boundary_hits(_EXCLUSIONARY_BUZZWORDS, text_low)
     if buzz_hits:
         flags.append(
             "Culture-fit buzzwords that may discourage otherwise-qualified "

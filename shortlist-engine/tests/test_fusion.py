@@ -45,9 +45,9 @@ def test_minmax_handles_identical_scores_without_division_by_zero():
 
 def test_rank_sorts_descending_and_assigns_rank():
     candidates = [
-        {"resume_id": "b", "final_score": 0.2},
-        {"resume_id": "a", "final_score": 0.9},
-        {"resume_id": "c", "final_score": 0.5},
+        {"resume_id": "b", "score": 0.2},
+        {"resume_id": "a", "score": 0.9},
+        {"resume_id": "c", "score": 0.5},
     ]
     ranked = rank(candidates)
     assert [c["resume_id"] for c in ranked] == ["a", "c", "b"]
@@ -56,8 +56,8 @@ def test_rank_sorts_descending_and_assigns_rank():
 
 def test_rank_ties_broken_by_resume_id_ascending():
     candidates = [
-        {"resume_id": "CAND_0000002", "final_score": 0.5},
-        {"resume_id": "CAND_0000001", "final_score": 0.5},
+        {"resume_id": "CAND_0000002", "score": 0.5},
+        {"resume_id": "CAND_0000001", "score": 0.5},
     ]
     ranked = rank(candidates)
     assert [c["resume_id"] for c in ranked] == ["CAND_0000001", "CAND_0000002"]
