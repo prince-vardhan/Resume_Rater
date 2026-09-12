@@ -57,6 +57,24 @@ _PAGE_BREAK = "\n\f\n"  # form-feed marker: preserves page boundaries without
 # polluting downstream tokenization (BM25/embedding tokenizers treat it as
 # whitespace), so evidence can still be traced back to a page if needed.
 
+# Some resume PDFs embed a bullet glyph (e.g. a Wingdings-style dot) whose
+# font has no ToUnicode mapping; pdfplumber then emits the raw glyph id as
+# literal text like "(cid:127)" instead of a character. At the start of a
+# line that's always standing in for a bullet marker, so we normalize it to
+# a real bullet; anywhere else (rare) we just drop it rather than leak the
+# artifact into scores/explanations.
+_CID_ARTIFACT_RE = re.compile(r"\(cid:\d+\)")
+
+
+def _clean_cid_artifacts(text: str) -> str:
+    def repl(match: re.Match) -> str:
+        line_start = text.rfind("\n", 0, match.start()) + 1
+        prefix = text[line_start:match.start()]
+        return "•" if prefix.strip() == "" else ""
+
+    cleaned = _CID_ARTIFACT_RE.sub(repl, text)
+    return re.sub(r"[ \t]{2,}", " ", cleaned)
+
 
 def extract_pages(pdf_path: str) -> List[str]:
     """Extract text per page. Skips pages that fail to extract (scanned/
@@ -70,7 +88,7 @@ def extract_pages(pdf_path: str) -> List[str]:
                 text = page.extract_text() or ""
             except Exception:
                 text = ""
-            pages.append(text)
+            pages.append(_clean_cid_artifacts(text) if text else text)
     return pages
 
 
