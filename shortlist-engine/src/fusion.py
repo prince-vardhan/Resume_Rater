@@ -68,7 +68,7 @@ def rank(candidates: List[Dict]) -> List[Dict]:
     determinism."""
     ordered = sorted(
         candidates,
-        key=lambda c: (-c["final_score"], c.get("resume_id", "")),
+        key=lambda c: (-c["score"], c.get("resume_id", "")),
     )
     for i, c in enumerate(ordered, start=1):
         c["rank"] = i
