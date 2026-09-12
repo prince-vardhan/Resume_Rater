@@ -35,6 +35,9 @@
    instead of the theme-driven --text/--text-h tokens the cards use. */
 .page-header h1 {
   color: #f5f3ff;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  margin: 0;
 }
 
 .subtitle {

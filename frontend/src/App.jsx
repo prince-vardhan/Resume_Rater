@@ -65,7 +65,7 @@ function App() {
 
       <div className="page">
         <header className="page-header">
-          <h1>Smart Shortlisting Engine</h1>
+          <h1>ResuFilter</h1>
           <p className="subtitle">
             Ranks resumes against a job description using BM25 keyword matching + local
             sentence-embedding semantic matching (all-MiniLM-L6-v2). No external APIs are called

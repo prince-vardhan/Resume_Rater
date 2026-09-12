@@ -14,7 +14,7 @@ REQUIRED_SECTION_HEADERS = [
     r"required", r"requirements", r"must[- ]have", r"minimum qualifications",
 ]
 PREFERRED_SECTION_HEADERS = [
-    r"preferred", r"nice[- ]to[- ]have", r"bonus", r"good to have", r"plus",
+    r"preferred", r"nice[- ]to[- ]have", r"bonus", r"good[- ]to[- ]have", r"plus",
 ]
 
 
@@ -49,9 +49,15 @@ def _split_required_preferred(jd_text: str) -> Dict[str, str]:
     Falls back to treating the whole JD as 'required' if no distinguishing
     headers are found (safer default -- we'd rather over-count required
     skills than under-count them)."""
+    # Anchored to the start of a line (past any bullet/whitespace) so a
+    # header keyword used in ordinary prose -- e.g. "React preferred" inside
+    # a MUST-HAVE bullet -- is never mistaken for a section boundary. Real
+    # headers ("Required:", "MUST-HAVE SKILLS") always open their own line.
     header_re = re.compile(
-        r"(" + "|".join(REQUIRED_SECTION_HEADERS + PREFERRED_SECTION_HEADERS) + r")\s*:?",
-        re.IGNORECASE,
+        r"^[ \t]*(?:[•▪◦\-\*]\s*)?("
+        + "|".join(REQUIRED_SECTION_HEADERS + PREFERRED_SECTION_HEADERS)
+        + r")\s*:?",
+        re.IGNORECASE | re.MULTILINE,
     )
 
     markers = []  # (content_start_offset, next_header_start_offset, "required"|"preferred")

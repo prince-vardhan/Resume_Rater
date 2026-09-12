@@ -22,7 +22,7 @@ export default function RankingTable({ ranking }) {
           <tbody>
             {ranking.map((c) => (
               <tr key={c.resume_id} className={c.rank <= 3 ? 'row-top' : ''}>
-                <td>#{c.rank}</td>
+                <td>{c.rank}</td>
                 <td className="candidate-cell">{c.resume_id}</td>
                 <td>
                   <span className="score-badge">{fmt(c.score)}</span>
