@@ -6,6 +6,8 @@
 #                          are in data/jd/ and data/resumes/ and prints JSON
 #   ./run.sh api         -> sets up, then starts the FastAPI server
 #   ./run.sh ui          -> sets up, then starts the Streamlit demo
+#   ./run.sh frontend     -> sets up, then starts the React dev server
+#                            (run alongside `./run.sh api` in another shell)
 #   ./run.sh test         -> sets up, then runs the pytest suite
 #
 # Safe to re-run: venv creation and pip install are skipped if already done.
@@ -21,6 +23,18 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 MODE="${1:-cli}"
+
+# The React frontend has its own toolchain (npm) -- no Python venv needed.
+if [ "$MODE" = "frontend" ]; then
+    echo "==> Starting React dev server (../frontend) ..."
+    cd ../frontend
+    if [ ! -d node_modules ]; then
+        echo "==> Installing frontend dependencies ..."
+        npm install
+    fi
+    exec npm run dev
+fi
+
 VENV_DIR="${SHORTLIST_ENGINE_VENV:-$HOME/.cache/shortlist-engine-venv}"
 
 if [ ! -d "$VENV_DIR" ]; then
@@ -77,7 +91,7 @@ print(json.dumps(result, indent=2))
         ;;
     *)
         echo "Unknown mode: $MODE"
-        echo "Usage: ./run.sh [cli|api|ui|test]"
+        echo "Usage: ./run.sh [cli|api|ui|frontend|test]"
         exit 1
         ;;
 esac

@@ -1,19 +1,38 @@
-# React + Vite
+# Smart Shortlisting Engine — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite client for the `shortlist-engine` FastAPI backend. Full feature
+parity with the Streamlit demo (`shortlist-engine/ui/app.py`), which still
+works standalone if you ever want it:
 
-Currently, two official plugins are available:
+- Upload one JD PDF + multiple resume PDFs
+- Required/preferred skills detected in the JD
+- Parsing warnings (e.g. scanned/image-only PDFs) and JD bias-phrasing flags
+- Full ranked candidate table (score, keyword/semantic sub-scores, required-
+  skill coverage, missing required skills)
+- Top-3 evidence-grounded explanation cards (quoting real resume text)
+- "Why is X ranked above Y?" comparison, computed client-side from the
+  already-fetched ranking data — no extra request, no LLM
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Run it
 
-## React Compiler
+1. Start the backend first (from `shortlist-engine/`):
+   ```bash
+   ./run.sh api
+   # or: uvicorn api.main:app --reload --port 8000
+   ```
+2. In this directory:
+   ```bash
+   npm install
+   npm run dev
+   ```
+3. Open the printed local URL (default `http://localhost:5173`).
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+If your API runs somewhere other than `http://localhost:8000`, copy
+`.env.example` to `.env.local` and set `VITE_API_BASE_URL` accordingly.
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+## Build for production
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run build
+npm run preview   # serve the production build locally to sanity-check it
+```
