@@ -1,4 +1,22 @@
+.app-shell {
+  position: relative;
+  min-height: 100svh;
+}
+
+/* Decorative animated background (see components/AeroShards.jsx) -- fixed
+   behind everything, aria-hidden, pointer-events: none, so it never
+   interferes with the actual UI. Its own backgroundColor prop paints
+   immediately even before WebGPU is available/ready, so there's no flash
+   of the page's light-mode background before it mounts. */
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
 .page {
+  position: relative;
+  z-index: 1;
   max-width: 1080px;
   margin: 0 auto;
   padding: 32px 20px 64px;
@@ -12,8 +30,15 @@
   margin-bottom: 4px;
 }
 
+/* The header and empty-state sit directly on the always-dark AeroShards
+   backdrop (not inside a themed .card), so they get fixed light text
+   instead of the theme-driven --text/--text-h tokens the cards use. */
+.page-header h1 {
+  color: #f5f3ff;
+}
+
 .subtitle {
-  color: var(--text);
+  color: #c9c3d9;
   max-width: 720px;
   line-height: 1.5;
   margin-top: 4px;
@@ -374,6 +399,6 @@
 
 .empty-state {
   text-align: center;
-  color: var(--text);
+  color: #c9c3d9;
   padding: 32px 0;
 }
