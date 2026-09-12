@@ -1,0 +1,34 @@
+Karthik Nair
+karthik.nair@email.com | +91-9012345678
+
+Education
+B.Com in Business Analytics, Symbiosis College, 2022-2025
+
+Skills
+Data Analysis: Excel, Power BI, basic SQL
+Statistics: Descriptive statistics, hypothesis testing
+Tools: Tableau, Google Sheets
+Languages: Basic Python for data analysis (pandas, numpy)
+
+Projects
+Sales Trend Dashboard
+- Built an interactive dashboard in Power BI to visualize quarterly sales trends for a mock retail dataset
+- Used SQL queries to extract and aggregate data from a relational database
+- Presented insights to a panel of faculty as part of a capstone project
+
+Customer Churn Analysis
+- Analyzed a customer churn dataset using Python (pandas) to identify key drivers of churn
+- Built basic classification models using scikit-learn
+- Visualized findings using matplotlib and Tableau
+
+Internship Experience
+Data Analyst Intern, RetailCorp (Summer 2025)
+- Assisted the analytics team in preparing weekly sales reports using Excel and SQL
+- Created dashboards in Tableau for internal stakeholders
+- No exposure to web application development or frontend/backend engineering
+
+Coursework
+- Business Statistics, Data Visualization, Marketing Analytics
+
+Certifications
+- Google Data Analytics Professional Certificate

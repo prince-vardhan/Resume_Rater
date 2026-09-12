@@ -1,0 +1,34 @@
+Ananya Rao
+ananya.rao@email.com | +91-9876543210 | github.com/ananyarao
+
+Education
+B.Tech in Computer Science, Manipal Institute of Technology, 2023-2027
+Relevant coursework: Data Structures, Operating Systems, Database Management Systems
+
+Skills
+Languages: JavaScript, Python, HTML, CSS
+Frontend: React.js, Redux, Tailwind CSS
+Backend: Node.js, Express.js, REST API design
+Databases: MongoDB, MySQL
+Tools: Git, GitHub, Postman, Docker (basic)
+
+Projects
+Campus Marketplace App
+- Built a full stack web application using React.js for the frontend and Node.js with Express.js for the backend
+- Designed and implemented REST APIs for user authentication, product listings, and order management
+- Used MongoDB as the primary database with Mongoose for schema modeling
+- Deployed the application using Docker containers
+
+Personal Finance Tracker
+- Developed a React.js single page application to track expenses and visualize spending patterns
+- Built a Node.js backend with REST endpoints for CRUD operations on transactions
+- Used Git for version control throughout development, with feature branches for each module
+
+Internship Experience
+Frontend Developer Intern, LocalStartup Inc. (Summer 2025)
+- Contributed to a React.js codebase, building reusable UI components
+- Collaborated with backend engineers consuming REST APIs built in Node.js
+- Participated in code reviews and used Git for collaborative development
+
+Certifications
+- Full Stack Web Development, Coursera

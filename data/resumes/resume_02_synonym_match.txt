@@ -1,0 +1,31 @@
+Rohan Mehta
+rohan.mehta@email.com | +91-9123456780 | linkedin.com/in/rohanmehta
+
+Education
+B.E. in Information Science, RV College of Engineering, 2022-2026
+
+Skills
+Frontend: JavaScript (ES6+), component-based UI development, responsive design
+Backend: Server-side JavaScript, building and consuming web APIs
+Database: Document-oriented NoSQL data storage, schema design
+Version Control: Distributed source control workflows, branching strategies
+
+Projects
+Event Booking Platform
+- Built a component-based single page application for browsing and booking campus events
+- Implemented server-side logic using Express to handle booking requests and user sessions
+- Stored event and booking data in a document-oriented database (Mongo) with flexible schemas
+- Set up authentication flows using JWT tokens for secure API access
+- Used a distributed version control system throughout, with a feature-branch workflow and pull requests
+
+Recipe Sharing App
+- Created a dynamic frontend where users can post and browse recipes, built with a component library
+- Wrote backend endpoints following REST principles to handle recipe CRUD operations
+- Used Mongo as the underlying data store, indexing frequently queried fields for performance
+
+Extracurricular
+- Active contributor to open source projects on GitHub, mostly frontend component libraries
+- Participated in two 24-hour hackathons building full stack prototypes end to end
+
+Coursework
+- Web Technologies, Database Management Systems, Software Engineering

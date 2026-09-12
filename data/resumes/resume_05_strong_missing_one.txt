@@ -1,0 +1,32 @@
+Divya Krishnan
+divya.krishnan@email.com | +91-9345678123 | github.com/divyak
+
+Education
+B.Tech in Information Technology, PES University, 2023-2027
+
+Skills
+Frontend: React.js, JavaScript (ES6+), HTML5, CSS3, Bootstrap
+Backend: Node.js, Express.js, REST API development
+Databases: MySQL, PostgreSQL (no NoSQL experience)
+Tools: Git, GitHub, Postman
+
+Projects
+Task Management App
+- Built a full stack task management application using React.js on the frontend
+- Developed backend REST APIs with Node.js and Express.js for task creation, updates, and deletion
+- Used PostgreSQL as the relational database, with proper schema design and foreign key relationships
+- Used Git for version control with a clear commit history and feature branches
+
+Blog Platform
+- Created a blogging platform where users can write and publish posts, using React.js for the UI
+- Implemented authentication and authorization using JWT with a Node.js/Express backend
+- Stored posts and user data in a MySQL database
+
+Internship Experience
+Backend Developer Intern, CodeCraft Technologies (Winter 2025)
+- Worked on REST API endpoints for an internal admin tool using Node.js and Express.js
+- Wrote unit tests for backend logic and used Git for collaborative development
+- Did not work with any NoSQL databases during this internship
+
+Coursework
+- Database Management Systems, Web Technologies, Software Engineering Principles

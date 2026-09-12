@@ -1,0 +1,31 @@
+Sneha Iyer
+sneha.iyer@email.com | +91-9988776655
+
+Education
+B.Sc. in Computer Applications, Christ University, 2023-2026
+
+Skills
+Languages: Python, JavaScript, basic Java
+Frontend: HTML, CSS, some exposure to React.js (academic project only)
+Databases: MySQL, basic SQL queries
+Tools: Git (basic usage), VS Code
+
+Projects
+College Attendance System
+- Built a simple web page using HTML, CSS, and JavaScript to display attendance records
+- Used Python with Flask for a small backend that read from a MySQL database
+- Followed a basic tutorial to add a React.js component for a dashboard view, did not build the full frontend independently
+
+Portfolio Website
+- Created a static personal portfolio website using HTML and CSS
+- Added minor JavaScript for a contact form and simple animations
+- Hosted on GitHub Pages
+
+Coursework
+- Introduction to Web Development, Database Systems, Object Oriented Programming
+
+Certifications
+- Python for Everybody, Coursera (in progress)
+
+Extracurricular
+- Member of the college coding club, helped organize one internal coding contest

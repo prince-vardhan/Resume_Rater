@@ -1,0 +1,33 @@
+Junior Full Stack Developer Intern
+TechNova Solutions
+
+About the Role
+TechNova Solutions is looking for a Junior Full Stack Developer Intern to join our engineering team.
+You will work closely with senior developers to build and maintain features across our web platform,
+gaining hands-on experience with modern frontend and backend technologies.
+
+Required Skills
+- Proficiency in React.js for building frontend interfaces
+- Experience with Node.js for backend development
+- Familiarity with MongoDB or another NoSQL database
+- Understanding of REST API design and implementation
+- Comfortable using Git for version control
+
+Nice to Have
+- Experience with Express.js
+- Familiarity with Docker
+- Exposure to cloud platforms such as AWS or GCP
+- Basic understanding of CI/CD pipelines
+
+Responsibilities
+- Assist in developing and maintaining web application features
+- Write clean, maintainable, and well-documented code
+- Collaborate with the design and backend teams to implement new functionality
+- Participate in code reviews and testing
+- Debug and resolve issues reported by QA or users
+
+Qualifications
+- Currently pursuing or recently completed a degree in Computer Science or related field
+- Basic understanding of data structures and algorithms
+- Strong problem-solving skills and eagerness to learn
+- No prior professional experience required, internship or academic project experience is a plus
