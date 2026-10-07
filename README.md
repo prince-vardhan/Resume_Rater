@@ -1,17 +1,17 @@
-# Resume_Rater — ResuFilter / Smart Shortlisting Engine
+# Resume_Rater - ResuFilter / Smart Shortlisting Engine
 
 Given **one job description (PDF)** and a **batch of resumes (PDFs)**, this project ranks every candidate from best to worst fit, gives each a score, and writes a short, evidence-based explanation for the **top 3**. It also flags potentially biased or overly narrow wording in the JD.
 
 It was built as a hackathon deliverable with two hard rules:
 
-1. **Ranking must come from real keyword matching (BM25 + a skill vocabulary) combined with real semantic matching (embeddings + cosine similarity)** — never from asking an LLM to "score this resume out of 100".
+1. **Ranking must come from real keyword matching (BM25 + a skill vocabulary) combined with real semantic matching (embeddings + cosine similarity)** - never from asking an LLM to "score this resume out of 100".
 2. **No external APIs.** No LLM calls, no hosted embedding services, nothing leaves the machine during inference. The embedding model's weights are downloaded once at setup, then everything runs locally/offline. Explanations and bias flags are template/rule-based.
 
 ---
 
 ## Tech stack
 
-### Backend / engine (`shortlist-engine/`) — Python 3.11+
+### Backend / engine (`shortlist-engine/`) - Python 3.11+
 | Purpose | Technology |
 |---|---|
 | PDF text extraction | `pdfplumber` 0.11.4 |
@@ -36,7 +36,7 @@ It was built as a hackathon deliverable with two hard rules:
 | HTTP | Browser `fetch` + `FormData` |
 
 ### Tooling
-- `shortlist-engine/run.sh` — one-command setup/run script (creates a venv in `~/.cache`, installs deps, runs CLI / API / UI / frontend / tests).
+- `shortlist-engine/run.sh` - one-command setup/run script (creates a venv in `~/.cache`, installs deps, runs CLI / API / UI / frontend / tests).
 - Git for version control; `BUILD_SPEC.md` is the original design spec.
 
 ---
@@ -105,31 +105,31 @@ Resume_Rater/
    JSON result  →  FastAPI  →  React app (or Streamlit)
 ```
 
-### 1. Parsing — `parsing.py`
+### 1. Parsing - `parsing.py`
 - `extract_text()` uses `pdfplumber` page by page. Pages that fail to extract are skipped rather than crashing; pages are joined with a form-feed marker so page boundaries are preserved.
 - Some PDFs emit literal `(cid:127)` text for unmapped bullet glyphs; these are cleaned (turned into `•` at line start, dropped elsewhere).
-- `has_low_text_extraction()` flags any file with fewer than 100 characters (likely a scanned image) as `low_text_extraction` — the run continues and surfaces a warning.
+- `has_low_text_extraction()` flags any file with fewer than 100 characters (likely a scanned image) as `low_text_extraction` - the run continues and surfaces a warning.
 - `split_resume_sections()` finds headers (Skills / Experience / Projects / Education) with regex. If fewer than two headers are found, the whole resume is treated as one blob.
 - `chunk_resume()` produces the units used for semantic matching: bullet lines from Experience/Projects first, sentence/line fallback otherwise, then Skills/Education sentences; de-duplicated in order.
 
-### 2. Skill vocabulary & extraction — `skill_vocab.py`, `extraction.py`
+### 2. Skill vocabulary & extraction - `skill_vocab.py`, `extraction.py`
 - `SKILL_VOCAB` maps ~50 canonical skills (javascript, react, nodejs, express, mongodb, docker, aws, rest_api, ci_cd, …) to their aliases (`"nodejs": ["node", "nodejs", "node.js", "node js"]`).
 - Matching is **word-boundary aware** (`(?<![a-zA-Z0-9])alias(?![a-zA-Z0-9])`), so `java` never matches inside `javascript`.
-- `RELATED_SKILLS` (e.g. express → nodejs) is only supporting context — **never counted as a direct match**.
+- `RELATED_SKILLS` (e.g. express → nodejs) is only supporting context - **never counted as a direct match**.
 - `EQUIVALENT_TOOL_GROUPS` (React/Vue/Angular, MongoDB/PostgreSQL/MySQL, Express/Django/Flask/FastAPI/Spring) is used only by the bias checker.
 - The JD is split heuristically into **required** and **preferred** text using line-start headers ("Required", "Must-have", "Preferred", "Nice to have", "Bonus", …). With no headers, everything counts as required. A skill in both buckets stays "required".
 
-### 3. Keyword matching — `keyword_match.py`
+### 3. Keyword matching - `keyword_match.py`
 - Tokenises with `[a-zA-Z0-9+#.-]+` (keeps `c++`, `node.js`, `c#`), builds a `BM25Okapi` index over all resumes, and scores the JD as the query.
 - `skill_overlap()` computes, per resume, matched/missing required skills, matched preferred skills, and **required-skill coverage** (matched ÷ required).
 
-### 4. Semantic matching — `semantic_match.py`
+### 4. Semantic matching - `semantic_match.py`
 - Loads `all-MiniLM-L6-v2` **once** at import.
 - Splits the JD into requirement statements (bullets, else sentences; headers and fragments dropped; falls back to the whole JD).
-- For each requirement, computes cosine similarity against every resume chunk and keeps the **maximum** — the best evidence. A resume's semantic score is the **mean of those maxima**.
+- For each requirement, computes cosine similarity against every resume chunk and keeps the **maximum** - the best evidence. A resume's semantic score is the **mean of those maxima**.
 - This is why "built REST APIs with Express and MongoDB" can support a "Node.js backend" requirement even without the literal phrase. The best chunk is kept verbatim so explanations quote real resume text.
 
-### 5. Fusion & ranking — `fusion.py`
+### 5. Fusion & ranking - `fusion.py`
 Both scores are min-max normalised **within the current batch** (identical scores → 0.5 to avoid divide-by-zero), then:
 
 ```
@@ -139,16 +139,16 @@ final_score       = 0.40 · keyword_component + 0.60 · semantic_norm
 
 Semantic gets more weight (catches paraphrases); the coverage term stops strong semantic "vibes" from hiding a missing required skill. Sorted descending; ties broken by `resume_id`. The score is **relative to the batch**, not an absolute employability score.
 
-### 6. Explanations — `explain.py`
+### 6. Explanations - `explain.py`
 For the top 3 only, a fixed template reports rank, score, matched/total required skills, missing skills, preferred skills, the two normalised sub-scores, and quotes the highest-similarity requirement ↔ resume chunk. Nothing is invented; no LLM.
 
-### 7. Bias check (bonus) — `bias_check.py`
+### 7. Bias check (bonus) - `bias_check.py`
 Pure heuristics, advisory only (never affects ranking):
 - Internship JD asking for ≥2 years of experience.
 - Gendered/exclusionary words ("rockstar", "ninja", "salesman", "young and energetic", …) and culture-fit buzzwords ("digital native", "wear many hats", …).
 - Narrow tooling: a single tool from an equivalent group required with no "or equivalent / similar / comparable" wording.
 
-### 8. Pipeline & output — `pipeline.py`
+### 8. Pipeline & output - `pipeline.py`
 `run_pipeline(jd_path, resume_paths)` returns:
 
 ```json
@@ -166,9 +166,9 @@ Pure heuristics, advisory only (never affects ranking):
 }
 ```
 
-### 9. API — `api/main.py`
+### 9. API - `api/main.py`
 - `GET /health` → `{"status": "ok"}`
-- `POST /rank` — multipart form: `jd` (one PDF) + `resumes` (many PDFs). Files go to a temp dir, `run_pipeline` runs, JSON is returned. CORS is wide open (`*`) for demo purposes — tighten before real deployment.
+- `POST /rank` - multipart form: `jd` (one PDF) + `resumes` (many PDFs). Files go to a temp dir, `run_pipeline` runs, JSON is returned. CORS is wide open (`*`) for demo purposes - tighten before real deployment.
 
 ### 10. Frontends
 - **React app (`frontend/`)**: `App.jsx` holds state (JD file, resume files, result, loading, error). `api.js` posts a `FormData` to `${VITE_API_BASE_URL}/rank` (default `http://localhost:8000`). After a run it shows the detected JD skills + warnings + bias flags, the full ranking table, top-3 explanation cards, and a "Why is X ranked above Y?" comparison panel (computed client-side from the existing response). A WebGPU shard animation (`AeroShards`) forms the background.
@@ -212,6 +212,6 @@ Then open the Vite URL (usually http://localhost:5173), upload a JD PDF plus res
 ## Limitations
 - Skill detection is limited to the hand-curated vocabulary (currently tuned for a full-stack/JS internship role); extend `SKILL_VOCAB` for other roles.
 - Required/preferred classification and section splitting are heuristics based on header keywords.
-- Scanned/image-only PDFs aren't OCR'd — they're flagged and ranked on limited evidence.
+- Scanned/image-only PDFs aren't OCR'd - they're flagged and ranked on limited evidence.
 - Scores are relative within a batch and not comparable across runs.
 - Bias flags are advisory, keyword-based, and can miss or over-flag.
